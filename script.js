@@ -42,7 +42,7 @@ document.addEventListener('DOMContentLoaded', () => {
                     count = event.target.result.count + 1;
                 } else {
                     // Start from 1 if no record exists
-                    count = 1;
+                    count = 178;
                 }
                 
                 // Update count in database
@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fallback to localStorage
             let viewCount = localStorage.getItem('viewCount');
             if (!viewCount) {
-                viewCount = 1;
+                viewCount = 178;
             } else {
                 viewCount = parseInt(viewCount) + 1;
             }
