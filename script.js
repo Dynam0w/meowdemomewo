@@ -169,29 +169,53 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-// Add this to ensure video stops when browser is minimized and resumes when reopened
+// Enhanced version to ensure video resumes when browser is reopened on mobile
 document.addEventListener('visibilitychange', function() {
     // Only handle on mobile devices
     if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
         const iframe = document.getElementById('background-video');
         const player = new Vimeo.Player(iframe);
         
-        if (document.hidden) {
+        if (document.visibilityState === 'hidden') {
             // Pause when browser is minimized
             player.pause();
-        } else {
-            // Resume playback when browser is reopened
-            player.play().then(() => {
-                // Ensure sound is on when resuming
-                player.setVolume(1);
-                player.setMuted(false);
-            }).catch(error => {
-                console.error("Error resuming video:", error);
-            });
+        } else if (document.visibilityState === 'visible') {
+            // Implement retry mechanism for resuming playback
+            let attempts = 0;
+            const maxAttempts = 5;
+            
+            function attemptPlay() {
+                player.play().then(() => {
+                    // Only try to unmute after successful play
+                    setTimeout(() => {
+                        player.setVolume(1);
+                        player.setMuted(false);
+                    }, 500);
+                }).catch(error => {
+                    console.error(`Error resuming video (attempt ${attempts+1}):`, error);
+                    if (attempts < maxAttempts) {
+                        attempts++;
+                        // Exponential backoff for retry
+                        setTimeout(attemptPlay, 1000 * attempts);
+                    }
+                });
+            }
+            
+            // Add a small delay before attempting to play
+            setTimeout(attemptPlay, 300);
         }
     }
-    // Desktop browsers will continue playing
 });
+
+// Add this to ensure volume is restored after user interaction
+document.addEventListener('touchstart', function() {
+    const iframe = document.getElementById('background-video');
+    if (iframe) {
+        const player = new Vimeo.Player(iframe);
+        player.setVolume(1);
+        player.setMuted(false);
+    }
+}, {once: true});
 
 // Disable right-click
 document.addEventListener('contextmenu', event => event.preventDefault());
