@@ -154,20 +154,24 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to initialize Typed.js
     function initTyped() {
         typed = new Typed('#auto-type', {
-            strings: ["hi i'm dynamo", "your plug 🌿", "your upgrading services"],
-            typeSpeed: 130,
-            backSpeed: 130,
-            loop: true,
-            showCursor: false,
-            smartBackspace: true,
-            startDelay: 500,
-            backDelay: 2000,
-            preStringTyped: function(arrayPos, self) {
-                // Clear the element content before typing the next string
-                self.el.innerHTML = '';
-            }
+          strings: [
+            "hi i'm dynamo", 
+            "your plug <img src='weed.gif' style='height:1em;vertical-align:middle;'>", 
+            "your upgrading services"
+          ],
+          typeSpeed: 130,
+          backSpeed: 130,
+          loop: true,
+          showCursor: false,
+          smartBackspace: true,
+          startDelay: 500,
+          backDelay: 2000,
+          preStringTyped: function(arrayPos, self) {
+            // Clear the element content before typing the next string
+            self.el.innerHTML = '';
+          }
         });
-    }
+      }
 
 // Enhanced version to ensure video resumes when browser is reopened on mobile
 document.addEventListener('visibilitychange', function() {
