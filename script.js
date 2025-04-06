@@ -169,18 +169,29 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
-    // Add this to ensure video stops when browser is minimized
-    document.addEventListener('visibilitychange', function() {
-        // Only pause on mobile devices
-        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
-            const iframe = document.getElementById('background-video');
-            const player = new Vimeo.Player(iframe);
-            if (document.hidden) {
-                player.pause();
-            }
+// Add this to ensure video stops when browser is minimized and resumes when reopened
+document.addEventListener('visibilitychange', function() {
+    // Only handle on mobile devices
+    if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+        const iframe = document.getElementById('background-video');
+        const player = new Vimeo.Player(iframe);
+        
+        if (document.hidden) {
+            // Pause when browser is minimized
+            player.pause();
+        } else {
+            // Resume playback when browser is reopened
+            player.play().then(() => {
+                // Ensure sound is on when resuming
+                player.setVolume(1);
+                player.setMuted(false);
+            }).catch(error => {
+                console.error("Error resuming video:", error);
+            });
         }
-        // Desktop browsers will continue playing
-    });
+    }
+    // Desktop browsers will continue playing
+});
 
 // Disable right-click
 document.addEventListener('contextmenu', event => event.preventDefault());
