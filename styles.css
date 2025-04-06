@@ -15,6 +15,27 @@ body {
     width: 100vw;
 }
 
+h1, .social-icons .icon img {
+    color: #fff;
+    text-shadow:
+      0 0 20px #fff,
+      0 0 0px #fff,
+      0 0 20px #fff,
+      0 0 0px #fff,
+      0 0 0px #fff,
+      0 0 5px #fff,
+      0 0 50px #fff,
+      0 0 0px #fff;
+  }
+  
+  .social-icons .icon img {
+    filter: drop-shadow(0 0 0px #fff)
+            drop-shadow(0 0 0px #fff)
+            drop-shadow(0 0 0px #fff)
+            drop-shadow(0 0 8px #fff)
+            drop-shadow(0 0 0px #fff);
+  }
+
 #landing-page {
     position: fixed;
     width: 100%;
