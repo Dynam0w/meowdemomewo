@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to initialize Typed.js
     function initTyped() {
         typed = new Typed('#auto-type', {
-            strings: ["hi i'm dynamo", "your plug", "your upgrading services"],
+            strings: ["hi i'm dynamo", "your plug🌿", "your upgrading services"],
             typeSpeed: 130,
             backSpeed: 130,
             loop: true,
