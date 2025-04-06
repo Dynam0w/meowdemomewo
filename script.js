@@ -182,7 +182,21 @@ document.addEventListener('DOMContentLoaded', () => {
             video.setAttribute('controls', false);
         });
     });
-
+    
+    document.addEventListener('DOMContentLoaded', () => {
+        const video = document.getElementById('background-video');
+        
+        // Force playsinline for iOS
+        video.setAttribute('playsinline', '');
+        video.setAttribute('webkit-playsinline', '');
+        
+        // Make sure video doesn't take over on iOS
+        video.addEventListener('play', function() {
+            // This helps prevent fullscreen takeover on some iOS versions
+            video.setAttribute('controls', false);
+        });
+    });
+    
     // Handle video background loading
     if (video) {
         video.addEventListener('loadeddata', () => {
