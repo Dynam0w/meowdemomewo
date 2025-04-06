@@ -189,6 +189,13 @@ h2 {
     filter: brightness(1.2);
 }
 
+  /* Add this specific style for the Steam icon */
+  .icon.steam img {
+    width: 42px;
+    height: 42px;
+    object-fit: contain;
+}
+
 /* Fixed view counter position */
 .view-counter {
     position: fixed;
