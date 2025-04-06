@@ -61,7 +61,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fallback to localStorage
             let viewCount = localStorage.getItem('viewCount');
             if (!viewCount) {
-                viewCount = 178;
+                viewCount = 1;
             } else {
                 viewCount = parseInt(viewCount) + 1;
             }
@@ -154,7 +154,7 @@ document.addEventListener('DOMContentLoaded', () => {
     // Function to initialize Typed.js
     function initTyped() {
         typed = new Typed('#auto-type', {
-            strings: ["hi i'm dynamo", "your plug🌿", "your upgrading services"],
+            strings: ["hi i'm dynamo", "your plug 🌿", "your upgrading services"],
             typeSpeed: 130,
             backSpeed: 130,
             loop: true,
@@ -169,6 +169,72 @@ document.addEventListener('DOMContentLoaded', () => {
         });
     }
 
+    // Add this to ensure video stops when browser is minimized
+    document.addEventListener('visibilitychange', function() {
+        // Only pause on mobile devices
+        if (/Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini/i.test(navigator.userAgent)) {
+            const iframe = document.getElementById('background-video');
+            const player = new Vimeo.Player(iframe);
+            if (document.hidden) {
+                player.pause();
+            }
+        }
+        // Desktop browsers will continue playing
+    });
+
+// Disable right-click
+document.addEventListener('contextmenu', event => event.preventDefault());
+
+// Disable keyboard shortcuts
+document.addEventListener('keydown', function(e) {
+  // Prevent F12
+  if (e.key == 'F12' || e.keyCode == 123) {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Prevent Ctrl+U (View Source)
+  if (e.ctrlKey && e.key == 'u') {
+    e.preventDefault();
+    return false;
+  }
+  
+  // Prevent Ctrl+Shift+I (Developer Tools)
+  if (e.ctrlKey && e.shiftKey && (e.key == 'I' || e.key == 'i')) {
+    e.preventDefault();
+    return false;
+  }
+});
+
+// Detect DevTools opening
+let devToolsOpen = false;
+const threshold = 160;
+
+function checkDevTools() {
+  // First check if this is a mobile device
+  const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
+  
+  // Skip detection on mobile devices
+  if (isMobile) return;
+  
+  const widthThreshold = window.outerWidth - window.innerWidth > threshold;
+  const heightThreshold = window.outerHeight - window.innerHeight > threshold;
+  
+  if (widthThreshold || heightThreshold) {
+    if (!devToolsOpen) {
+      devToolsOpen = true;
+      // Take action when DevTools opens
+      document.body.innerHTML = "nuh nigga";
+    }
+  } else {
+    devToolsOpen = false;
+  }
+}
+
+setInterval(checkDevTools, 1000);
+
+    document.addEventListener('contextmenu', event => event.preventDefault());
+
     document.addEventListener('DOMContentLoaded', () => {
         const video = document.getElementById('background-video');
         
@@ -182,21 +248,7 @@ document.addEventListener('DOMContentLoaded', () => {
             video.setAttribute('controls', false);
         });
     });
-    
-    document.addEventListener('DOMContentLoaded', () => {
-        const video = document.getElementById('background-video');
-        
-        // Force playsinline for iOS
-        video.setAttribute('playsinline', '');
-        video.setAttribute('webkit-playsinline', '');
-        
-        // Make sure video doesn't take over on iOS
-        video.addEventListener('play', function() {
-            // This helps prevent fullscreen takeover on some iOS versions
-            video.setAttribute('controls', false);
-        });
-    });
-    
+
     // Handle video background loading
     if (video) {
         video.addEventListener('loadeddata', () => {
