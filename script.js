@@ -206,15 +206,16 @@ document.addEventListener('keydown', function(e) {
   }
 });
 
-// Detect DevTools opening
+// Detect DevTools opening - multiple detection methods
 let devToolsOpen = false;
 const threshold = 160;
 
+// Method 1: Window size difference detection
 function checkDevTools() {
   // First check if this is a mobile device
   const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
   
-  // Skip detection on mobile devices
+  // Skip this detection method on mobile devices
   if (isMobile) return;
   
   const widthThreshold = window.outerWidth - window.innerWidth > threshold;
@@ -224,13 +225,48 @@ function checkDevTools() {
     if (!devToolsOpen) {
       devToolsOpen = true;
       // Take action when DevTools opens
-      document.body.innerHTML = "nuh nigga";
+      document.body.innerHTML = "nuh uh nigga you cannot";
     }
   } else {
     devToolsOpen = false;
   }
 }
 
+
+// Method 3: debugger detection
+function detectDebugger() {
+  const startTime = new Date();
+  debugger;
+  const endTime = new Date();
+  
+  if (endTime - startTime > 100 && !devToolsOpen) {
+    devToolsOpen = true;
+    document.body.innerHTML = "nuh uh nigga you cannot";
+  }
+}
+
+// Method 4: console.clear detection
+const originalClear = console.clear;
+console.clear = function() {
+  if (!devToolsOpen) {
+    devToolsOpen = true;
+    document.body.innerHTML = "nuh uh nigga you cannot";
+  }
+  originalClear.call(console);
+};
+
+// Run all detection methods periodically
+setInterval(checkDevTools, 1000);
+setInterval(checkConsoleOpen, 100);
+setInterval(detectDebugger, 2000);
+
+// Additional protection: Detect Firebug
+if (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) {
+  document.body.innerHTML = "nuh uh nigga you cannot";
+}
+
+// Additional protection: Detect if DevTools is already open when page loads
+setTimeout(checkDevTools, 500);
 setInterval(checkDevTools, 1000);
 
     document.addEventListener('contextmenu', event => event.preventDefault());
