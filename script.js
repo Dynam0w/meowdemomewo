@@ -156,7 +156,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typed = new Typed('#auto-type', {
           strings: [
             "hi i'm dynamo", 
-            "your plug <img src='weed.gif' style='height:1em;vertical-align:middle;'>", 
+            "your plug <img src='green.gif' style='height:1em;vertical-align:middle;'>", 
             "your upgrading services"
           ],
           typeSpeed: 130,
