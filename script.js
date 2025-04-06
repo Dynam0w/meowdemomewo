@@ -332,3 +332,50 @@ setInterval(checkDevTools, 1000);
         });
     }
 });
+
+// Title auto-typing effect - fixed version
+function titleTypingEffect() {
+    const titles = ["@exerlie"];
+    let currentIndex = 0;
+    let charIndex = 0;
+    let isDeleting = false;
+    
+    function type() {
+      const currentTitle = titles[currentIndex];
+      
+      if (isDeleting) {
+        // Deleting text
+        charIndex--;
+        document.title = currentTitle.substring(0, charIndex) || "@";
+      } else {
+        // Typing text
+        charIndex++;
+        document.title = currentTitle.substring(0, charIndex);
+      }
+      
+      // Typing speed
+      let typeSpeed = isDeleting ? 150 : 200;
+      
+      // If complete word
+      if (!isDeleting && charIndex >= currentTitle.length) {
+        // Pause at end of word
+        typeSpeed = 900;
+        isDeleting = true;
+      } else if (isDeleting && charIndex <= 0) {
+        isDeleting = false;
+        charIndex = 0;
+        // Pause before typing next word
+        typeSpeed = 200;
+      }
+      
+      setTimeout(type, typeSpeed);
+    }
+    
+    // Start the typing effect
+    type();
+  }
+  
+  // Call the function when the page loads
+  document.addEventListener('DOMContentLoaded', function() {
+    titleTypingEffect();
+  });
