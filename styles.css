@@ -36,6 +36,31 @@ h1, .social-icons .icon img {
             drop-shadow(0 0 0px #fff);
   }
 
+  .header-container {
+    display: flex;
+    flex-direction: row-reverse; /* This will reverse the order */
+    align-items: center;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .profile-image-container {
+    width: 65px; /* Adjust size as needed */
+    height: 65px; /* Adjust size as needed */
+    border-radius: 50%;
+    overflow: hidden;
+  }
+  
+  #profile-image {
+    width:  90%;
+    height: 85%;
+    object-fit: cover;
+  }
+  
+  h1 {
+    margin: 0; /* Remove default margin to align properly with the image */
+  }
+
 #landing-page {
     position: fixed;
     width: 100%;
