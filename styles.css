@@ -18,48 +18,48 @@ body {
 h1, .social-icons .icon img {
     color: #fff;
     text-shadow:
-      0 0 20px #fff,
-      0 0 0px #fff,
-      0 0 20px #fff,
-      0 0 0px #fff,
-      0 0 0px #fff,
-      0 0 5px #fff,
-      0 0 50px #fff,
-      0 0 0px #fff;
-  }
-  
-  .social-icons .icon img {
+        0 0 20px #fff,
+        0 0 0px #fff,
+        0 0 20px #fff,
+        0 0 0px #fff,
+        0 0 0px #fff,
+        0 0 5px #fff,
+        0 0 50px #fff,
+        0 0 0px #fff;
+}
+
+.social-icons .icon img {
     filter: drop-shadow(0 0 0px #fff)
             drop-shadow(0 0 0px #fff)
             drop-shadow(0 0 0px #fff)
             drop-shadow(0 0 8px #fff)
             drop-shadow(0 0 0px #fff);
-  }
+}
 
-  .header-container {
+.header-container {
     display: flex;
     flex-direction: row-reverse; /* This will reverse the order */
     align-items: center;
     justify-content: center;
     gap: 20px;
-  }
-  
-  .profile-image-container {
+}
+
+.profile-image-container {
     width: 65px; /* Adjust size as needed */
     height: 65px; /* Adjust size as needed */
     border-radius: 0%;
     overflow: hidden;
-  }
-  
-  #profile-image {
-    width:  100%;
+}
+
+#profile-image {
+    width: 100%;
     height: 100%;
     object-fit: cover;
-  }
-  
-  h1 {
+}
+
+h1 {
     margin: 0; /* Remove default margin to align properly with the image */
-  }
+}
 
 #landing-page {
     position: fixed;
@@ -118,22 +118,78 @@ h1, .social-icons .icon img {
     }
 }
 
-.sound-button {
-    position: absolute;
+/* Volume Control Styling */
+.volume-control {
+    position: fixed;
     bottom: 20px;
     right: 20px;
+    display: flex;
+    align-items: center;
     background: rgba(0, 0, 0, 0.5);
+    padding: 8px;
+    border-radius: 20px;
+    z-index: 100;
+}
+
+.sound-button {
+    background: transparent;
     color: white;
     border: none;
     border-radius: 50%;
-    width: 40px;
-    height: 40px;
+    width: 36px;
+    height: 36px;
     cursor: pointer;
-    z-index: 100;
     display: flex;
     align-items: center;
     justify-content: center;
     transition: background 0.3s;
+    margin-right: 8px;
+}
+
+.sound-button:hover {
+    background: rgba(255, 255, 255, 0.1);
+}
+
+.volume-slider {
+    width: 80px;
+    height: 4px;
+    -webkit-appearance: none;
+    background: rgba(255, 255, 255, 0.3);
+    border-radius: 2px;
+    outline: none;
+}
+
+.volume-slider::-webkit-slider-thumb {
+    -webkit-appearance: none;
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+}
+
+.volume-slider::-moz-range-thumb {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%;
+    background: white;
+    cursor: pointer;
+    border: none;
+}
+
+/* Mobile-friendly volume slider */
+.volume-slider.mobile-friendly {
+    height: 6px;
+}
+
+.volume-slider.mobile-friendly::-webkit-slider-thumb {
+    width: 16px;
+    height: 16px;
+}
+
+.volume-slider.mobile-friendly::-moz-range-thumb {
+    width: 16px;
+    height: 16px;
 }
 
 .hidden {
@@ -189,8 +245,8 @@ h2 {
     filter: brightness(1.2);
 }
 
-  /* Add this specific style for the Steam icon */
-  .icon.steam img {
+/* Add this specific style for the Steam icon */
+.icon.steam img {
     width: 42px;
     height: 42px;
     object-fit: contain;
@@ -199,8 +255,8 @@ h2 {
 /* Fixed view counter position */
 .view-counter {
     position: fixed;
-    bottom: 10px;
-    left: 10px;
+    bottom: 34px;
+    left: 20px;
     display: flex;
     align-items: center;
     font-size: 0.8rem;
