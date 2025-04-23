@@ -5,11 +5,12 @@
     <link rel="apple-touch-icon" sizes="180x180" href="/apple-touch-icon.png">
     <link rel="icon" type="image/png" sizes="192x192" href="/android-chrome-192x192.png">
     <link rel="icon" type="image/png" sizes="512x512" href="/android-chrome-512x512.png">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.4/css/all.min.css">
     <meta property="og:title" content="@exerlie" />
     <meta property="og:description" content="your plug | your upgrading services" />
     <meta property="og:url" content="https://exerlie.xyz/" />
     <meta property="og:image" content="https://i.imgur.com/Rh1qNn7.png" />
-    <meta property="og:color" content="#FFFFFF" />
+    <meta property="og:color" content="#000000" />
     <script src="https://player.vimeo.com/api/player.js"></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -56,7 +57,15 @@
             </div>
         </div>
         
-        <!-- Moved view counter outside content-container -->
+        <!-- Volume Control with Slider -->
+        <div class="volume-control">
+            <button id="sound-toggle" class="sound-button">
+                <i id="sound-icon" class="fas fa-volume-mute"></i>
+            </button>
+            <input type="range" min="0" max="1" step="0.01" value="0.5" id="volume-slider" class="volume-slider">
+        </div>
+
+        <!-- View Counter -->
         <div class="view-counter">
             <span class="eye-icon">👁</span>
             <span id="counter">178</span>
