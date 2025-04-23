@@ -23,6 +23,10 @@ document.addEventListener('DOMContentLoaded', () => {
     // Set initial volume to 0 due to autoplay restrictions (required by browsers)
     player.setVolume(0);
     
+    // Force playsinline attribute for mobile devices
+    player.element.setAttribute('playsinline', '');
+    player.element.setAttribute('webkit-playsinline', '');
+    
     // Disable autopause to keep playing when tab is not active
     player.setAutopause(false).catch(error => {
         console.error("Error setting autopause:", error);
@@ -95,6 +99,15 @@ document.addEventListener('DOMContentLoaded', () => {
     // If on mobile, make volume slider bigger for touch devices
     if (isMobileDevice()) {
         volumeSlider.classList.add('mobile-friendly');
+        
+        // Add additional mobile-specific handling
+        document.addEventListener('touchstart', function() {
+            if (landingPage.classList.contains('hidden')) {
+                player.play().catch(error => {
+                    console.error("Error playing video on mobile:", error);
+                });
+            }
+        }, {once: true});
     }
 
     // Volume slider functionality
@@ -153,6 +166,11 @@ document.addEventListener('DOMContentLoaded', () => {
             contentPage.classList.remove('hidden');
             contentPage.style.opacity = '1';
 
+            // Force play for mobile devices
+            player.play().catch(error => {
+                console.error("Error playing video after landing page:", error);
+            });
+
             // Set volume to 0.5 after user interaction ONLY if user hasn't set it manually
             setTimeout(() => {
                 if (!userHasSetVolume) {
@@ -184,7 +202,7 @@ document.addEventListener('DOMContentLoaded', () => {
         typed = new Typed('#auto-type', {
             strings: [
                 "hi i'm dynamo",
-                "your plug ",
+                "your plug <img src='green.gif' style='height:1em;vertical-align:middle;'>",
                 "your upgrading services"
             ],
             typeSpeed: 130,
@@ -222,27 +240,16 @@ document.addEventListener('DOMContentLoaded', () => {
         // Only handle if we're past the landing page
         if (landingPage.classList.contains('hidden')) {
             if (document.visibilityState === 'visible') {
-                // When tab becomes visible again, check if video is playing
-                player.getPaused().then(paused => {
-                    if (paused) {
-                        // Only play if it's paused for some reason
-                        player.play().then(() => {
-                            // Only restore volume if user hasn't manually set it
-                            if (!userHasSetVolume) {
-                                const volumeValue = parseFloat(volumeSlider.value) || 0.5;
-                                player.setVolume(volumeValue);
-                            } else {
-                                // If user has set volume, use their setting
-                                const volumeValue = parseFloat(volumeSlider.value);
-                                player.setVolume(volumeValue);
-                            }
-                        }).catch(error => {
-                            console.error("Error resuming video:", error);
-                        });
-                    }
+                // When tab becomes visible again, ensure video is playing
+                player.play().then(() => {
+                    // Restore volume setting based on user preference
+                    const volumeValue = parseFloat(volumeSlider.value);
+                    player.setVolume(volumeValue);
+                }).catch(error => {
+                    console.error("Error resuming video:", error);
                 });
             }
-            // Don't pause when tab becomes hidden (we removed the pause code)
+            // Don't pause when tab becomes hidden
         }
     });
 
