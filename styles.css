@@ -282,13 +282,14 @@ h2 {
         left: 15px;
         padding: 3px 6px;
         background-color: rgba(0, 0, 0, 0.7);
-        z-index: 100;
+        z-index: 999;
     }
     
     /* Make sure the image is visible */
     .view-counter img {
         display: block;
         max-height: 20px;
+        width: auto;
     }
 }
 
