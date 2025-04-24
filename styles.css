@@ -277,7 +277,7 @@ h2 {
     
     /* Make sure the image is visible */
 .view-counter img {
-    display: block;
+    display: flex;
     max-height: 20px;
     width: auto;
     }
