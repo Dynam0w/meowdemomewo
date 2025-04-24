@@ -12,6 +12,7 @@
     <meta property="og:image" content="https://i.imgur.com/Rh1qNn7.png" />
     <meta property="og:color" content="#000000" />
     <script src="https://player.vimeo.com/api/player.js"></script>
+    <script disable-devtool-auto src='https://cdn.jsdelivr.net/npm/disable-devtool'></script>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>@exerlie</title>
@@ -30,10 +31,14 @@
         <!-- Video Background -->
         <div class="video-background">
             <iframe id="background-video"
-                    src="https://player.vimeo.com/video/1072814324?background=1&autoplay=1&loop=1&muted=1&quality=1080p&title=0&byline=0&portrait=0"
+                    src="https://player.vimeo.com/video/1072814324?background=1&loop=1&muted=1&quality=1080p&title=0&byline=0"
                     frameborder="0"
+                    allowfullscreen
                     allow="autoplay; fullscreen; picture-in-picture"
-                    allowfullscreen></iframe>
+                    playsinline
+                    webkit-playsinline
+                    muted>
+                </iframe>
         </div>
 
         <div class="content-container">
@@ -68,7 +73,7 @@
         <!-- View Counter -->
         <div class="view-counter">
             <span class="eye-icon">👁</span>
-            <span id="counter">178</span>
+            <span id="counter">234</span>
         </div>
     </div>
 
