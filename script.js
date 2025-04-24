@@ -90,7 +90,7 @@ document.addEventListener('DOMContentLoaded', () => {
             // Fallback to localStorage
             let viewCount = localStorage.getItem('viewCount');
             if (!viewCount) {
-                viewCount = 178;
+                viewCount = 234;
             } else {
                 viewCount = parseInt(viewCount) + 1;
             }
