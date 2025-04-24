@@ -278,6 +278,8 @@ h2 {
 /* Improve mobile visibility */
 @media (max-width: 767px) {
     .view-counter {
+        width: 16px;
+        height: 16px;
         bottom: 16px;
         left: 16px;
         padding: 2px 5px;
