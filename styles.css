@@ -275,6 +275,16 @@ h2 {
     z-index: 10;
 }
 
+/* Add specific mobile styles */
+@media (max-width: 767px) {
+    .view-counter {
+        bottom: 20px;
+        left: 15px;
+        padding: 3px 6px;
+        z-index: 100; /* Higher z-index to ensure visibility */
+    }
+}
+
 .eye-icon {
     margin-right: 3px;
 }
