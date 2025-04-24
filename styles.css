@@ -275,12 +275,13 @@ h2 {
     z-index: 10;
 }
     
-    /* Make sure the image is visible */
-.view-counter img {
-    display: flex;
-    max-height: 20px;
-    width: auto;
+/* Remove view counter background on mobile */
+@media (max-width: 767px) {
+    .view-counter {
+        background-color: transparent !important;
+        padding: 0;
     }
+}
 
 #hit-count {
     font-weight: normal;
