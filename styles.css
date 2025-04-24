@@ -274,26 +274,13 @@ h2 {
     border-radius: 4px;
     z-index: 10;
 }
-
-/* Improve mobile visibility */
-@media (max-width: 767px) {
-    .view-counter {
-        width: 16px;
-        height: 16px;
-        bottom: 16px;
-        left: 16px;
-        padding: 2px 5px;
-        background-color: rgba(0, 0, 0, 0.5);
-        z-index: 10;
-    }
     
     /* Make sure the image is visible */
-    .view-counter img {
-        display: block;
-        max-height: 20px;
-        width: auto;
+.view-counter img {
+    display: block;
+    max-height: 20px;
+    width: auto;
     }
-}
 
 #hit-count {
     font-weight: normal;
