@@ -5,7 +5,7 @@ document.addEventListener('DOMContentLoaded', () => {
     const soundToggle = document.getElementById('sound-toggle');
     const soundIcon = document.getElementById('sound-icon');
     const volumeSlider = document.getElementById('volume-slider');
-    const counterElement = document.getElementById('counter');
+    const counterElement = document.getElementById('hit-count');
 
     // Initialize auto-typing effect
     let typed;
@@ -45,61 +45,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Function to update view count
     function updateViewCount() {
-        // Open IndexedDB database
-        const request = indexedDB.open('ViewCounterDB', 1);
-
-        // Create object store if needed
-        request.onupgradeneeded = function (event) {
-            const db = event.target.result;
-            if (!db.objectStoreNames.contains('viewCount')) {
-                db.createObjectStore('viewCount', { keyPath: 'id' });
-            }
-        };
-
-        // Handle database open success
-        request.onsuccess = function (event) {
-            const db = event.target.result;
-            const transaction = db.transaction(['viewCount'], 'readwrite');
-            const store = transaction.objectStore('viewCount');
-
-            // Get current count
-            const getRequest = store.get(1);
-            getRequest.onsuccess = function (event) {
-                let count;
-                if (event.target.result) {
-                    // Increment existing count
-                    count = event.target.result.count + 1;
-                } else {
-                    // Start from 178 if no record exists
-                    count = 178;
-                }
-
-                // Update count in database
-                store.put({ id: 1, count: count });
-
-                // Update display
-                if (counterElement) {
-                    counterElement.textContent = count;
-                }
-            };
-        };
-
-        // Handle errors
-        request.onerror = function (event) {
-            console.error("Database error:", event.target.error);
-            // Fallback to localStorage
-            let viewCount = localStorage.getItem('viewCount');
-            if (!viewCount) {
-                viewCount = 234;
-            } else {
-                viewCount = parseInt(viewCount) + 1;
-            }
-
-            localStorage.setItem('viewCount', viewCount);
-            if (counterElement) {
-                counterElement.textContent = viewCount;
-            }
-        };
+        const counterElement = document.getElementById('hit-count');
+        
+        // Check if counter element exists
+        if (!counterElement) {
+            console.error("Counter element not found");
+            return;
+        }
+        
+        // Clear any existing content
+        counterElement.innerHTML = '';
+        
+        // Create and append the Vercel views counter image
+        const viewCounterImg = document.createElement('img');
+        viewCounterImg.src = "https://views-counter.vercel.app/badge?pageId=exerlie%2Exyz&leftColor=000000&rightColor=000000&type=total&label=%F0%9F%91%81&style=none";
+        viewCounterImg.alt = "views";
+        counterElement.appendChild(viewCounterImg);
     }
 
     // Check if on mobile device
