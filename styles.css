@@ -275,18 +275,25 @@ h2 {
     z-index: 10;
 }
 
-/* Add specific mobile styles */
+/* Improve mobile visibility */
 @media (max-width: 767px) {
     .view-counter {
         bottom: 20px;
         left: 15px;
         padding: 3px 6px;
-        z-index: 100; /* Higher z-index to ensure visibility */
+        background-color: rgba(0, 0, 0, 0.7);
+        z-index: 100;
+    }
+    
+    /* Make sure the image is visible */
+    .view-counter img {
+        display: block;
+        max-height: 20px;
     }
 }
 
-.eye-icon {
-    margin-right: 3px;
+#hit-count {
+    font-weight: normal;
 }
 
 /* Fade-up animation for elements */
