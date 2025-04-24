@@ -9,7 +9,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Initialize auto-typing effect
     let typed;
-    
+    let player;
+
     // Track if user has manually set volume
     let userHasSetVolume = false;
 
@@ -17,20 +18,30 @@ document.addEventListener('DOMContentLoaded', () => {
     updateViewCount();
 
     // Initialize Vimeo player
-    const iframe = document.getElementById('background-video');
-    const player = new Vimeo.Player(iframe);
+    function initializePlayer() {
+        const iframe = document.getElementById('background-video');
+        player = new Vimeo.Player(iframe);
 
-    // Set initial volume to 0 due to autoplay restrictions (required by browsers)
-    player.setVolume(0);
-    
-    // Force playsinline attribute for mobile devices
-    player.element.setAttribute('playsinline', '');
-    player.element.setAttribute('webkit-playsinline', '');
-    
-    // Disable autopause to keep playing when tab is not active
-    player.setAutopause(false).catch(error => {
-        console.error("Error setting autopause:", error);
-    });
+        // Set initial volume to 0 due to autoplay restrictions
+        player.setVolume(0);
+
+        // Force playsinline attribute for mobile devices
+        player.element.setAttribute('playsinline', '');
+        player.element.setAttribute('webkit-playsinline', '');
+
+        // Disable autopause to keep playing when tab is not active
+        player.setAutopause(false).catch(error => {
+            console.error("Error setting autopause:", error);
+        });
+
+        // Explicitly pause the player to ensure it doesn't autoplay
+        player.pause().catch(error => {
+            console.error("Error pausing video:", error);
+        });
+    }
+
+    // Initialize player
+    initializePlayer();
 
     // Function to update view count
     function updateViewCount() {
@@ -38,7 +49,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const request = indexedDB.open('ViewCounterDB', 1);
 
         // Create object store if needed
-        request.onupgradeneeded = function(event) {
+        request.onupgradeneeded = function (event) {
             const db = event.target.result;
             if (!db.objectStoreNames.contains('viewCount')) {
                 db.createObjectStore('viewCount', { keyPath: 'id' });
@@ -46,15 +57,14 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Handle database open success
-        request.onsuccess = function(event) {
+        request.onsuccess = function (event) {
             const db = event.target.result;
             const transaction = db.transaction(['viewCount'], 'readwrite');
             const store = transaction.objectStore('viewCount');
 
             // Get current count
             const getRequest = store.get(1);
-
-            getRequest.onsuccess = function(event) {
+            getRequest.onsuccess = function (event) {
                 let count;
                 if (event.target.result) {
                     // Increment existing count
@@ -75,7 +85,7 @@ document.addEventListener('DOMContentLoaded', () => {
         };
 
         // Handle errors
-        request.onerror = function(event) {
+        request.onerror = function (event) {
             console.error("Database error:", event.target.error);
             // Fallback to localStorage
             let viewCount = localStorage.getItem('viewCount');
@@ -84,6 +94,7 @@ document.addEventListener('DOMContentLoaded', () => {
             } else {
                 viewCount = parseInt(viewCount) + 1;
             }
+
             localStorage.setItem('viewCount', viewCount);
             if (counterElement) {
                 counterElement.textContent = viewCount;
@@ -99,15 +110,14 @@ document.addEventListener('DOMContentLoaded', () => {
     // If on mobile, make volume slider bigger for touch devices
     if (isMobileDevice()) {
         volumeSlider.classList.add('mobile-friendly');
-        
         // Add additional mobile-specific handling
-        document.addEventListener('touchstart', function() {
+        document.addEventListener('touchstart', function () {
             if (landingPage.classList.contains('hidden')) {
                 player.play().catch(error => {
                     console.error("Error playing video on mobile:", error);
                 });
             }
-        }, {once: true});
+        }, { once: true });
     }
 
     // Volume slider functionality
@@ -115,7 +125,6 @@ document.addEventListener('DOMContentLoaded', () => {
         volumeSlider.addEventListener('input', (e) => {
             const value = e.target.value;
             userHasSetVolume = true;
-            
             // Set volume using Vimeo API
             player.setVolume(value).then(() => {
                 // Update icon based on volume level
@@ -160,27 +169,29 @@ document.addEventListener('DOMContentLoaded', () => {
         // Start transition
         landingPage.style.opacity = '0';
 
-        // After fade out, hide landing page and show content
+        // After fade out, hide landing page, show content, and start playing video
         setTimeout(() => {
             landingPage.classList.add('hidden');
             contentPage.classList.remove('hidden');
             contentPage.style.opacity = '1';
 
-            // Force play for mobile devices
-            player.play().catch(error => {
+            // Now play the video after user interaction
+            document.querySelector('.video-background').classList.add('active');
+
+            player.play().then(() => {
+                // Set volume to 0.5 after user interaction ONLY if user hasn't set it manually
+                if (!userHasSetVolume) {
+                    setTimeout(() => {
+                        player.setVolume(0.5).then(() => {
+                            soundIcon.classList.remove('fa-volume-mute');
+                            soundIcon.classList.add('fa-volume-up');
+                            volumeSlider.value = 0.5;
+                        });
+                    }, 1000);
+                }
+            }).catch(error => {
                 console.error("Error playing video after landing page:", error);
             });
-
-            // Set volume to 0.5 after user interaction ONLY if user hasn't set it manually
-            setTimeout(() => {
-                if (!userHasSetVolume) {
-                    player.setVolume(0.5).then(() => {
-                        soundIcon.classList.remove('fa-volume-mute');
-                        soundIcon.classList.add('fa-volume-up');
-                        volumeSlider.value = 0.5;
-                    });
-                }
-            }, 1000);
 
             // Activate fade-up elements with delay
             fadeElements.forEach((element, index) => {
@@ -213,7 +224,7 @@ document.addEventListener('DOMContentLoaded', () => {
             smartBackspace: true,
             startDelay: 500,
             backDelay: 2000,
-            preStringTyped: function(arrayPos, self) {
+            preStringTyped: function (arrayPos, self) {
                 // Clear the element content before typing the next string
                 self.el.innerHTML = '';
             }
@@ -224,7 +235,7 @@ document.addEventListener('DOMContentLoaded', () => {
     document.addEventListener('click', function enableAudio() {
         // Only enable if we're past the landing page
         if (!landingPage.classList.contains('hidden')) return;
-        
+
         // Set volume to 0.5 (50%) ONLY if user hasn't set it manually
         if (!userHasSetVolume) {
             player.setVolume(0.5).then(() => {
@@ -236,7 +247,7 @@ document.addEventListener('DOMContentLoaded', () => {
     });
 
     // Modified visibilitychange handler to keep playing when tab is not active
-    document.addEventListener('visibilitychange', function() {
+    document.addEventListener('visibilitychange', function () {
         // Only handle if we're past the landing page
         if (landingPage.classList.contains('hidden')) {
             if (document.visibilityState === 'visible') {
@@ -266,10 +277,10 @@ document.addEventListener('DOMContentLoaded', () => {
         const isMobile = /iPhone|iPad|iPod|Android/i.test(navigator.userAgent);
         // Skip this detection method on mobile devices
         if (isMobile) return;
-        
+
         const widthThreshold = window.outerWidth - window.innerWidth > threshold;
         const heightThreshold = window.outerHeight - window.innerHeight > threshold;
-        
+
         if (widthThreshold || heightThreshold) {
             if (!devToolsOpen) {
                 devToolsOpen = true;
@@ -286,7 +297,7 @@ document.addEventListener('DOMContentLoaded', () => {
         const startTime = new Date();
         debugger;
         const endTime = new Date();
-        
+
         if (endTime - startTime > 100 && !devToolsOpen) {
             devToolsOpen = true;
             document.body.innerHTML = "nuh uh nigga you cannot";
@@ -295,7 +306,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Method 4: console.clear detection
     const originalClear = console.clear;
-    console.clear = function() {
+    console.clear = function () {
         if (!devToolsOpen) {
             devToolsOpen = true;
             document.body.innerHTML = "nuh uh nigga you cannot";
@@ -303,9 +314,38 @@ document.addEventListener('DOMContentLoaded', () => {
         originalClear.call(console);
     };
 
+    // Block keyboard shortcuts for DevTools
+    document.onkeydown = function (e) {
+        // Block F12
+        if (e.keyCode == 123) {
+            return false;
+        }
+
+        // Block Ctrl+Shift+I
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'I'.charCodeAt(0)) {
+            return false;
+        }
+
+        // Block Ctrl+Shift+J
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'J'.charCodeAt(0)) {
+            return false;
+        }
+
+        // Block Ctrl+Shift+C
+        if (e.ctrlKey && e.shiftKey && e.keyCode == 'C'.charCodeAt(0)) {
+            return false;
+        }
+
+        // Block Ctrl+U (View Source)
+        if (e.ctrlKey && e.keyCode == 'U'.charCodeAt(0)) {
+            return false;
+        }
+    };
+
     // Run all detection methods periodically
     setInterval(checkDevTools, 1000);
     setInterval(detectDebugger, 2000);
+    setInterval(detectConsoleOpen, 1000);
 
     // Additional protection: Detect Firebug
     if (window.Firebug && window.Firebug.chrome && window.Firebug.chrome.isInitialized) {
@@ -314,6 +354,7 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // Additional protection: Detect if DevTools is already open when page loads
     setTimeout(checkDevTools, 500);
+    setTimeout(detectConsoleOpen, 700);
 
     // Title auto-typing effect
     function titleTypingEffect() {
@@ -321,10 +362,10 @@ document.addEventListener('DOMContentLoaded', () => {
         let currentIndex = 0;
         let charIndex = 0;
         let isDeleting = false;
-        
+
         function type() {
             const currentTitle = titles[currentIndex];
-            
+
             if (isDeleting) {
                 // Deleting text
                 charIndex--;
@@ -334,10 +375,10 @@ document.addEventListener('DOMContentLoaded', () => {
                 charIndex++;
                 document.title = currentTitle.substring(0, charIndex);
             }
-            
+
             // Typing speed
             let typeSpeed = isDeleting ? 150 : 200;
-            
+
             // If complete word
             if (!isDeleting && charIndex >= currentTitle.length) {
                 // Pause at end of word
@@ -349,14 +390,14 @@ document.addEventListener('DOMContentLoaded', () => {
                 // Pause before typing next word
                 typeSpeed = 200;
             }
-            
+
             setTimeout(type, typeSpeed);
         }
-        
+
         // Start the typing effect
         type();
     }
-    
+
     // Call the title typing effect
     titleTypingEffect();
 });
