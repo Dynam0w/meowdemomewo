@@ -118,6 +118,14 @@ h1 {
     }
 }
 
+.video-background {
+    opacity: 0;
+    transition: opacity 1s ease-in-out;
+}
+
+.video-background.active {
+    opacity: 1;
+}
 /* Volume Control Styling */
 .volume-control {
     position: fixed;
