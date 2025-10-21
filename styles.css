@@ -1,300 +1,308 @@
 * {
-    margin: 0;
-    padding: 0;
-    box-sizing: border-box;
+margin: 0;
+padding: 0;
+box-sizing: border-box;
 }
 
 body {
-    margin: 0;
-    padding: 0;
-    background-color: #000;
-    color: #fff;
-    font-family: 'Montserrat', Arial, sans-serif;
-    overflow: hidden;
-    height: 100vh;
-    width: 100vw;
+margin: 0;
+padding: 0;
+background-color: #000;
+color: #fff;
+font-family: 'Montserrat', Arial, sans-serif;
+overflow: hidden;
+height: 100vh;
+width: 100vw;
 }
 
 h1, .social-icons .icon img {
-    color: #fff;
-    text-shadow:
-        0 0 20px #fff,
-        0 0 0px #fff,
-        0 0 20px #fff,
-        0 0 0px #fff,
-        0 0 0px #fff,
-        0 0 5px #fff,
-        0 0 50px #fff,
-        0 0 0px #fff;
+color: #fff;
+text-shadow:
+0 0 20px #fff,
+0 0 0px #fff,
+0 0 20px #fff,
+0 0 0px #fff,
+0 0 0px #fff,
+0 0 5px #fff,
+0 0 50px #fff,
+0 0 0px #fff;
 }
 
 .social-icons .icon img {
-    filter: drop-shadow(0 0 0px #fff)
-            drop-shadow(0 0 0px #fff)
-            drop-shadow(0 0 0px #fff)
-            drop-shadow(0 0 8px #fff)
-            drop-shadow(0 0 0px #fff);
+filter: drop-shadow(0 0 0px #fff)
+drop-shadow(0 0 0px #fff)
+drop-shadow(0 0 0px #fff)
+drop-shadow(0 0 8px #fff)
+drop-shadow(0 0 0px #fff);
 }
 
 .header-container {
-    display: flex;
-    flex-direction: row-reverse; /* This will reverse the order */
-    align-items: center;
-    justify-content: center;
-    gap: 20px;
+display: flex;
+flex-direction: row-reverse;
+align-items: center;
+justify-content: center;
+gap: 20px;
 }
 
 .profile-image-container {
-    width: 65px; /* Adjust size as needed */
-    height: 65px; /* Adjust size as needed */
-    border-radius: 0%;
-    overflow: hidden;
+width: 65px;
+height: 65px;
+border-radius: 0%;
+overflow: hidden;
 }
 
 #profile-image {
-    width: 100%;
-    height: 100%;
-    object-fit: cover;
+width: 100%;
+height: 100%;
+object-fit: cover;
 }
 
 h1 {
-    margin: 0; /* Remove default margin to align properly with the image */
+margin: 0;
 }
 
 #landing-page {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 10;
-    background-color: #000;
-    cursor: pointer;
-    transition: opacity 0.8s ease-in-out;
+position: fixed;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+z-index: 10;
+background-color: #000;
+cursor: pointer;
+transition: opacity 0.8s ease-in-out;
 }
 
 .enter-text {
-    font-size: 2rem;
-    color: #fff;
-    font-weight: 700;
+font-size: 2rem;
+color: #fff;
+font-weight: 700;
+pointer-events: none;
 }
 
 #content-page {
-    position: fixed;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    opacity: 0;
-    transition: opacity 0.8s ease-in-out;
+position: fixed;
+width: 100%;
+height: 100%;
+display: flex;
+justify-content: center;
+align-items: center;
+opacity: 0;
+transition: opacity 0.8s ease-in-out;
 }
 
 .video-background {
-    position: fixed;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 100%;
-    overflow: hidden;
-    z-index: -1;
+position: fixed;
+top: 0;
+left: 0;
+width: 100%;
+height: 100%;
+overflow: hidden;
+z-index: -1;
+/* Add your background image here - Change 'your-background-image.jpg' to your actual image filename */
+background-image: url('shit.png');
+background-size: cover;
+background-position: center;
+background-repeat: no-repeat;
+background-color: #000;
+transition: background-image 0.5s ease-out;
+opacity: 0;
+transition: opacity 1s ease-in-out;
 }
 
-.video-background iframe {
-    position: absolute;
-    top: 50%;
-    left: 50%;
-    width: 120vw; /* Increased from 100vw to zoom in */
-    height: 120vh; /* Increased from 100vh to zoom in */
-    transform: translateX(-50%) translateY(-50%);
-    pointer-events: none;
-}
-
-@media (max-width: 767px) {
-    .video-background iframe {
-        width: 469vw; /* More zoom on mobile */
-        height: 469vh; /* More zoom on mobile */
-    }
-}
-
-.video-background {
-    opacity: 0;
-    transition: opacity 1s ease-in-out;
+/* Remove background when video is playing */
+.video-background.video-playing {
+background-image: none !important;
 }
 
 .video-background.active {
-    opacity: 1;
+opacity: 1;
 }
+
+.video-background iframe {
+position: absolute;
+top: 50%;
+left: 50%;
+width: 120vw;
+height: 120vh;
+transform: translateX(-50%) translateY(-50%);
+pointer-events: none;
+}
+
+@media (max-width: 767px) {
+.video-background iframe {
+width: 469vw;
+height: 469vh;
+}
+}
+
 /* Volume Control Styling */
 .volume-control {
-    position: fixed;
-    bottom: 20px;
-    right: 20px;
-    display: flex;
-    align-items: center;
-    background: rgba(0, 0, 0, 0.5);
-    padding: 8px;
-    border-radius: 20px;
-    z-index: 100;
+position: fixed;
+bottom: 20px;
+right: 20px;
+display: flex;
+align-items: center;
+background: rgba(0, 0, 0, 0.5);
+padding: 8px;
+border-radius: 20px;
+z-index: 100;
 }
 
 .sound-button {
-    background: transparent;
-    color: white;
-    border: none;
-    border-radius: 50%;
-    width: 36px;
-    height: 36px;
-    cursor: pointer;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    transition: background 0.3s;
-    margin-right: 8px;
+background: transparent;
+color: white;
+border: none;
+border-radius: 50%;
+width: 36px;
+height: 36px;
+cursor: pointer;
+display: flex;
+align-items: center;
+justify-content: center;
+transition: background 0.3s;
+margin-right: 8px;
 }
 
 .sound-button:hover {
-    background: rgba(255, 255, 255, 0.1);
+background: rgba(255, 255, 255, 0.1);
 }
 
 .volume-slider {
-    width: 80px;
-    height: 4px;
-    -webkit-appearance: none;
-    background: rgba(255, 255, 255, 0.3);
-    border-radius: 2px;
-    outline: none;
+width: 80px;
+height: 4px;
+-webkit-appearance: none;
+background: rgba(255, 255, 255, 0.3);
+border-radius: 2px;
+outline: none;
 }
 
 .volume-slider::-webkit-slider-thumb {
-    -webkit-appearance: none;
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
+-webkit-appearance: none;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: white;
+cursor: pointer;
 }
 
 .volume-slider::-moz-range-thumb {
-    width: 12px;
-    height: 12px;
-    border-radius: 50%;
-    background: white;
-    cursor: pointer;
-    border: none;
+width: 12px;
+height: 12px;
+border-radius: 50%;
+background: white;
+cursor: pointer;
+border: none;
 }
 
 /* Mobile-friendly volume slider */
 .volume-slider.mobile-friendly {
-    height: 6px;
+height: 6px;
 }
 
 .volume-slider.mobile-friendly::-webkit-slider-thumb {
-    width: 16px;
-    height: 16px;
+width: 16px;
+height: 16px;
 }
 
 .volume-slider.mobile-friendly::-moz-range-thumb {
-    width: 16px;
-    height: 16px;
+width: 16px;
+height: 16px;
 }
 
 .hidden {
-    opacity: 0;
-    pointer-events: none;
+display: none !important;
 }
 
 .content-container {
-    position: relative;
-    width: 100%;
-    height: 100%;
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    z-index: 2;
-    text-align: center;
+position: relative;
+width: 100%;
+height: 100%;
+display: flex;
+flex-direction: column;
+justify-content: center;
+align-items: center;
+z-index: 2;
+text-align: center;
 }
 
 h1 {
-    font-size: 2.5rem;
-    margin-bottom: 5px;
-    font-weight: 700;
-    text-transform: lowercase;
-    letter-spacing: 1px;
+font-size: 2.5rem;
+margin-bottom: 5px;
+font-weight: 700;
+text-transform: lowercase;
+letter-spacing: 1px;
 }
 
 h2 {
-    font-size: 1.2rem;
-    margin-bottom: 15px;
-    font-weight: 400;
+font-size: 1.2rem;
+margin-bottom: 15px;
+font-weight: 400;
 }
 
 .social-icons {
-    display: flex;
-    justify-content: center;
-    gap: 15px;
-    margin-top: 10px;
+display: flex;
+justify-content: center;
+gap: 15px;
+margin-top: 10px;
 }
 
 .icon {
-    width: 36px;
-    height: 36px;
-    display: flex;
-    align-items: center;
-    justify-content: center;
+width: 36px;
+height: 36px;
+display: flex;
+align-items: center;
+justify-content: center;
 }
 
 .icon img {
-    width: 100%;
-    height: 100%;
-    object-fit: contain;
-    filter: brightness(1.2);
+width: 100%;
+height: 100%;
+object-fit: contain;
+filter: brightness(1.2);
 }
 
-/* Add this specific style for the Steam icon */
 .icon.steam img {
-    width: 42px;
-    height: 42px;
-    object-fit: contain;
+width: 42px;
+height: 42px;
+object-fit: contain;
 }
 
 /* Fixed view counter position */
 .view-counter {
-    position: fixed;
-    bottom: 34px;
-    left: 20px;
-    display: flex;
-    align-items: center;
-    font-size: 0.8rem;
-    color: white;
-    background-color: rgba(0, 0, 0, 0.5);
-    padding: 2px 5px;
-    border-radius: 4px;
-    z-index: 10;
+position: fixed;
+bottom: 34px;
+left: 20px;
+display: flex;
+align-items: center;
+font-size: 0.8rem;
+color: white;
+background-color: rgba(0, 0, 0, 0.5);
+padding: 2px 5px;
+border-radius: 4px;
+z-index: 10;
 }
-    
-/* Remove view counter background on mobile */
+
 @media (max-width: 767px) {
-    .view-counter {
-        background-color: transparent !important;
-        padding: 0;
-    }
+.view-counter {
+background-color: transparent !important;
+padding: 0;
+}
 }
 
 #hit-count {
-    font-weight: normal;
+font-weight: normal;
 }
 
 /* Fade-up animation for elements */
 .fade-up {
-    opacity: 0;
-    transform: translateY(30px);
-    transition: opacity 0.8s ease, transform 0.8s ease;
+opacity: 0;
+transform: translateY(30px);
+transition: opacity 0.8s ease, transform 0.8s ease;
 }
 
 .fade-up.active {
-    opacity: 1;
-    transform: translateY(0);
+opacity: 1;
+transform: translateY(0);
 }
