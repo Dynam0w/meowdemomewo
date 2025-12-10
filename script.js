@@ -182,7 +182,7 @@ landingPage.addEventListener('click', () => {
 function initTyped() {
     typed = new Typed('#auto-type', {
         strings: [
-            "hi i'm dynamo <img src='peepo.gif' style='height:1em;vertical-align:middle;'>",
+            "hi i'm exerlie <img src='peepo.gif' style='height:1em;vertical-align:middle;'>",
             "your plug <img src='green.gif' style='height:1em;vertical-align:middle;'>",
             "your upgrading services"
         ],
@@ -351,4 +351,5 @@ function titleTypingEffect() {
 titleTypingEffect();
 
 });
+
 
