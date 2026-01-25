@@ -182,18 +182,18 @@ landingPage.addEventListener('click', () => {
 function initTyped() {
     typed = new Typed('#auto-type', {
         strings: [
-            "da plug 🔌<img src='green.gif' style='height:1em;vertical-align:middle;'>",
+            "green plug 🔌<img src='green.gif' style='height:1em;vertical-align:middle;'>",
             "hi i'm exerlie <img src='peepo.gif' style='height:1em;vertical-align:middle;'>",
             "your upgrading services"
         ],
-        typeSpeed: 130,
-        backSpeed: 130,
+        typeSpeed: 135,
+        backSpeed: 135,
         loop: true,
         showCursor: true,
         cursorChar: '|',
         smartBackspace: true,
         startDelay: 500,
-        backDelay: 2000,
+        backDelay: 2500,
         preStringTyped: function (arrayPos, self) {
             self.el.innerHTML = '';
         }
@@ -351,6 +351,7 @@ function titleTypingEffect() {
 titleTypingEffect();
 
 });
+
 
 
 
